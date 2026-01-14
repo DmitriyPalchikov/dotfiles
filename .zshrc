@@ -93,6 +93,7 @@ alias t="tmux"
 alias k="kubectl"
 alias vim="nvim"
 alias v="vagrant"
+alias cat="batcat"
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
