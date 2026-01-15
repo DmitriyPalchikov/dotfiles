@@ -2,12 +2,11 @@
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
-local util = require "lspconfig.util"
 
--- Новый API - замените require("lspconfig").setup()
--- require("lspconfig").setup()  -- УДАЛИТЕ ЭТУ СТРОКУ
+-- Инициализируем lspconfig чтобы добавить его конфиги в runtime path
+require "lspconfig"
 
--- Список серверов
+-- Список серверов для включения
 local servers = {
   "lua_ls",
   "pyright",
@@ -16,21 +15,15 @@ local servers = {
   "dockerls",
 }
 
--- Настройка серверов с дефолтной конфигурацией
-local default_servers = { "pyright", "yamlls", "dockerls" }
-for _, lsp in ipairs(default_servers) do
-  vim.lsp.config(lsp, {
-    on_attach = on_attach,
-    on_init = on_init,
-    capabilities = capabilities,
-  })
-end
-
--- lua_ls с кастомными настройками
-vim.lsp.config("lua_ls", {
+-- Настраиваем глобальные параметры для всех LSP серверов
+vim.lsp.config("*", {
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
+})
+
+-- Кастомизируем lua_ls
+vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
       diagnostics = {
@@ -51,13 +44,10 @@ vim.lsp.config("lua_ls", {
   },
 })
 
--- bashls с кастомными настройками
+-- Кастомизируем bashls
 vim.lsp.config("bashls", {
-  on_attach = on_attach,
-  capabilities = capabilities,
   cmd = { "bash-language-server", "start" },
   filetypes = { "sh", "zsh", "bash" },
-  root_dir = util.root_pattern(".git", vim.fn.getcwd()),
   settings = {
     bash = {
       diagnostics = {
@@ -67,5 +57,30 @@ vim.lsp.config("bashls", {
   },
 })
 
--- Активируем все LSP серверы (добавьте это в init.lua или после конфигурации)
+-- Включаем все серверы
 vim.lsp.enable(servers)
+
+-- === DIAGNOSTIC CONFIGURATION ===
+vim.diagnostic.config {
+  virtual_text = {
+    prefix = "●",
+    source = "if_many",
+    spacing = 4,
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    source = "always",
+    border = "rounded",
+    focusable = true,
+  },
+}
+
+-- Настройка иконок для ошибок
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = "󰋽 " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
