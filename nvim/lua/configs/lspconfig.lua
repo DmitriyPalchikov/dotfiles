@@ -1,4 +1,3 @@
--- ~/.config/nvim/lua/configs/lspconfig.lua
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
@@ -8,11 +7,11 @@ require "lspconfig"
 
 -- Список серверов для включения
 local servers = {
-  "lua_ls",
-  "pyright",
-  "bashls",
-  "yamlls",
-  "dockerls",
+	"lua_ls",
+	"pyright",
+	"bashls",
+	"yamlls",
+	"dockerls",
 }
 
 -- Настраиваем глобальные параметры для всех LSP серверов
