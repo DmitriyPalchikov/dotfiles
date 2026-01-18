@@ -7,6 +7,8 @@ require("mason-lspconfig").setup {
     "bashls",
     "yamlls",
     "dockerls",
+    "gopls",
+    "ansiblels",
   },
   automatic_installation = false,
 }

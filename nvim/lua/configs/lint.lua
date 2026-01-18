@@ -7,6 +7,8 @@ lint.linters_by_ft = {
   bash = { "shellcheck" },
   yaml = { "yamllint" },
   dockerfile = { "hadolint" },
+  ["yaml.ansible"] = { "ansible_lint", "yamllint" },
+  go = { "golangcilint" },
 }
 
 lint.linters.luacheck.args = {

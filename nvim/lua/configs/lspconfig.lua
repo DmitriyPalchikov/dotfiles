@@ -12,6 +12,8 @@ local servers = {
   "bashls",
   "yamlls",
   "dockerls",
+  "gopls",
+  "ansiblels",
 }
 
 -- Настраиваем глобальные параметры для всех LSP серверов
@@ -56,6 +58,44 @@ vim.lsp.config("bashls", {
   },
 })
 
+vim.lsp.config("gopls", { -- nvim 0.11
+  on_attach = function(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+    on_attach(client, bufnr)
+  end,
+  on_init = on_init,
+  capabilities = capabilities,
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod", "gotmpl", "gowork" },
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+      },
+      completeUnimported = true,
+      usePlaceholders = true,
+      staticcheck = true,
+    },
+  },
+})
+
+vim.lsp.config("ansiblels", {
+  cmd = { "ansible-language-server", "--stdio" },
+  filetypes = { "yaml.ansible", "ansible" },
+  settings = {
+    ansible = {
+      validation = {
+        enabled = true,
+        lint = {
+          enabled = true,
+          path = "ansible-lint",
+        },
+      },
+    },
+  },
+})
+
 -- Включаем все серверы
 vim.lsp.enable(servers)
 
@@ -67,13 +107,13 @@ vim.diagnostic.config {
     spacing = 4,
   },
   signs = {
-      text = {
-        [vim.diagnostic.severity.ERROR] = "󰅚 ",
-        [vim.diagnostic.severity.WARN] = "󰀪 ",
-        [vim.diagnostic.severity.HINT] = "󰌶 ",
-        [vim.diagnostic.severity.INFO] = "󰋽 ",
-      },
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.WARN] = "󰀪 ",
+      [vim.diagnostic.severity.HINT] = "󰌶 ",
+      [vim.diagnostic.severity.INFO] = "󰋽 ",
     },
+  },
   underline = true,
   update_in_insert = false,
   severity_sort = true,
@@ -83,10 +123,3 @@ vim.diagnostic.config {
     focusable = true,
   },
 }
-
--- Настройка иконок для ошибок
--- local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = "󰋽 " }
--- for type, icon in pairs(signs) do
---   local hl = "DiagnosticSign" .. type
---   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
--- end
