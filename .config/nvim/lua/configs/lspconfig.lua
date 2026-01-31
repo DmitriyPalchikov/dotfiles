@@ -1,7 +1,8 @@
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
-
+local cache_dir = vim.uv.os_homedir() .. '/.cache/gitlab-ci-ls/'
+local util = require("lspconfig.util")
 -- Инициализируем lspconfig чтобы добавить его конфиги в runtime path
 require "lspconfig"
 
@@ -15,6 +16,10 @@ local servers = {
   "gopls",
   "ansiblels",
   "nginx_language_server",
+  "gitlab_ci_ls",
+  "helm_ls",
+  "jinja_lsp",
+  "docker_compose_language_service",
 }
 
 -- Настраиваем глобальные параметры для всех LSP серверов
@@ -59,6 +64,33 @@ vim.lsp.config("bashls", {
   },
 })
 
+vim.lsp.config("jinja_lsp", {
+  name = "jinja_lsp",
+  cmd = { "jinja-lsp" },
+  filetypes = { "jinja" },
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.j2",
+  callback = function()
+    vim.bo.filetype = "jinja"
+  end,
+})
+
+vim.lsp.config("docker_compose_language_service", {
+  cmd = { 'docker-compose-langserver', '--stdio' },
+  filetypes = { 'yaml.docker-compose' },
+  root_markers = { 'docker-compose.yaml', 'docker-compose.yml', 'compose.yaml', 'compose.yml' },
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.compose*.yml", "*.compose*.yaml", "docker-compose*.yml", "docker-compose*.yaml" },
+  callback = function()
+    vim.bo.filetype = "yaml.docker-compose"
+  end,
+  desc = "Set filetype for Docker Compose files",
+})
+
 vim.lsp.config("gopls", { -- nvim 0.11
   on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
@@ -96,6 +128,28 @@ vim.lsp.config("ansiblels", {
     },
   },
 })
+
+
+vim.lsp.config("gitlab_ci_ls", {
+  cmd = { "gitlab-ci-ls" },
+  filetypes = { "yaml.gitlab" },
+  root_dir = function(bufnr, on_dir)
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    on_dir(util.root_pattern('.git', '.gitlab*')(fname))
+  end,
+  init_options = {
+    cache_path = cache_dir,
+    log_path = cache_dir .. '/log/gitlab-ci-ls.log',
+  },
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.gitlab-ci*.{yml,yaml}",
+  callback = function()
+    vim.bo.filetype = "yaml.gitlab"
+  end,
+})
+
 
 -- Включаем все серверы
 vim.lsp.enable(servers)

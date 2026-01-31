@@ -122,6 +122,17 @@ return {
         virtual_text_column = 1,
     },
   },
+
+  {
+    "qvalentin/helm-ls.nvim",
+    ft = "helm",
+    opts = {
+        -- leave empty or see below
+    },
+  },
+  {
+  "budimanjojo/k8s-snippets",
+  },
   {
     "nvim-neotest/neotest",
     optional = true,

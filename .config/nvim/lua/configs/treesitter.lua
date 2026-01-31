@@ -17,6 +17,7 @@ local options = {
     "gosum",
     "gotmpl",
     "gowork",
+    "helm",
   },
 
   highlight = {
