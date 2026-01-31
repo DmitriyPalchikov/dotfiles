@@ -14,6 +14,7 @@ local servers = {
   "dockerls",
   "gopls",
   "ansiblels",
+  "nginx_language_server",
 }
 
 -- Настраиваем глобальные параметры для всех LSP серверов

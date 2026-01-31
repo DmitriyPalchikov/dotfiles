@@ -9,6 +9,7 @@ require("mason-lspconfig").setup {
     "dockerls",
     "gopls",
     "ansiblels",
+    "nginx_language_server",
   },
   automatic_installation = false,
 }
