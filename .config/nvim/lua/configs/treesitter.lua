@@ -1,31 +1,14 @@
-local options = {
-  ensure_installed = {
-    "bash",
-    "fish",
-    "lua",
-    "luadoc",
-    "markdown",
-    "printf",
-    "python",
-    "toml",
-    "vim",
-    "vimdoc",
-    "yaml",
-    "dockerfile",
-    "go",
-    "gomod",
-    "gosum",
-    "gotmpl",
-    "gowork",
-    "helm",
-  },
-
-  highlight = {
-    enable = true,
-    use_languagetree = true,
-  },
-
-  indent = { enable = true },
+local parsers = {
+  "bash", "fish", "lua", "luadoc", "markdown", "printf", "python",
+  "toml", "vim", "vimdoc", "yaml", "dockerfile", "go", "gomod",
+  "gosum", "gotmpl", "gowork", "helm",
 }
 
-require("nvim-treesitter.configs").setup(options)
+require("nvim-treesitter").install(parsers)
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("treesitter_highlight", { clear = true }),
+  callback = function(ev)
+    pcall(vim.treesitter.start, ev.buf)
+  end,
+})

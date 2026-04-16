@@ -2,6 +2,8 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    build = ":TSUpdate",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require "configs.treesitter"
@@ -132,6 +134,9 @@ return {
   },
   {
   "budimanjojo/k8s-snippets",
+  },
+  { "MagicDuck/grug-far.nvim", 
+    config = true 
   },
   {
     "nvim-neotest/neotest",
