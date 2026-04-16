@@ -13,7 +13,7 @@ compinit
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="/opt/pycharm-2024.3.4/bin:$PATH"
+export PATH="/opt/pycharm-2024.3.4/bin:/home/dmitriy/.cargo/bin:$PATH"
 export PATH=/usr/local/go/bin:$PATH
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
@@ -93,12 +93,13 @@ alias t="tmux"
 alias k="kubectl"
 alias vim="nvim"
 alias v="vagrant"
-alias cat="batcat"
+alias cat="bat"
 alias ccat="/bin/cat"
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -133,3 +134,5 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 export PATH=$HOME/.local/bin:$PATH
+eval $(keychain --eval -Q -q ~/.ssh/lognex)
+
