@@ -17,6 +17,12 @@ return {
     },
     terminal = {
         enabled = true,
-    }
+    },
+    statuscolumn = {
+      enabled = true,
+      folds = {
+        open = true,
+      },
+    },
   }
 }

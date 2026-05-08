@@ -3,6 +3,8 @@ local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 local cache_dir = vim.uv.os_homedir() .. '/.cache/gitlab-ci-ls/'
 local util = require("lspconfig.util")
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 -- Инициализируем lspconfig чтобы добавить его конфиги в runtime path
 require "lspconfig"
 

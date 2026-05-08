@@ -47,3 +47,11 @@ map("n", "<leader>gG", function()
   Snacks.lazygit()
 end, { desc = "Lazygit (cwd)" })
 
+-- FOLDS
+map("n", "<leader>za", "za", { remap = true, desc = "Toggle fold" })
+map("n", "<leader>zR", function()
+  require("ufo").openAllFolds()
+end, { desc = "Open all folds" })
+map("n", "<leader>zM", function()
+  require("ufo").closeAllFolds()
+end, { desc = "Close all folds" })
