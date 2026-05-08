@@ -91,6 +91,7 @@ source <(kubectl completion zsh)
 alias ls="eza --tree --level=1 --icons=always"
 alias t="tmux"
 alias k="kubectl"
+alias ktx="kubectx"
 alias vim="nvim"
 alias v="vagrant"
 alias cat="bat"
