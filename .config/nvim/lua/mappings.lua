@@ -44,7 +44,18 @@ map('t', '<Esc><Esc>', '<C-\\><C-n>', { noremap = true })
 
 -- LAZYGIT
 map("n", "<leader>gG", function()
-  Snacks.lazygit()
+  require("snacks").lazygit({
+    win = {
+      on_close = function()
+        vim.defer_fn(function()
+          pcall(vim.cmd, "Gitsigns refresh")
+          if package.loaded["nvim-tree.api"] then
+            pcall(require("nvim-tree.api").tree.reload)
+          end
+        end, 50)
+      end,
+    },
+  })
 end, { desc = "Lazygit (cwd)" })
 
 -- FOLDS
