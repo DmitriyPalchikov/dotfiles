@@ -1,0 +1,110 @@
+# herdr configuration
+# ~/.config/herdr/config.toml
+#
+# Конфигурация собрана как перенос текущего ~/.tmux.conf:
+# префикс ctrl+a, split через | и -, resize через h/j/k/l,
+# zoom на m, copy-mode на f, статус снизу, тема dracula.
+# Ctrl+L не перехватывается: он уходит в шелл и очищает экран как обычно.
+
+onboarding = false
+
+[theme]
+name = "dracula"
+
+[terminal]
+# Пусто = $SHELL (zsh)
+default_shell = ""
+new_cwd = "follow"
+kitty_graphics = true
+
+[keys]
+# Префикс как в tmux
+prefix = "ctrl+a"
+
+# Общие действия
+help = "prefix+?"
+settings = "prefix+shift+s"
+detach = ["prefix+d", "prefix+q"]
+reload_config = "prefix+r"
+open_notification_target = "prefix+shift+o"
+
+# Workspace / сессии
+workspace_picker = ["prefix+s", "prefix+w"]
+goto = "prefix+g"
+new_workspace = "prefix+shift+n"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+
+# Вкладки (tmux windows)
+new_tab = "prefix+c"
+rename_tab = "prefix+shift+t"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
+close_tab = "prefix+shift+x"
+
+# Панели
+rename_pane = "prefix+shift+p"
+edit_scrollback = "prefix+e"
+# Полная очистка экрана и scrollback (Ctrl+L работает и без этого бинда)
+clear_pane = "prefix+ctrl+l"
+# Как в tmux: prefix+f, затем / для поиска
+copy_mode = ["prefix+f", "prefix+["]
+focus_pane_left = ["prefix+left", "ctrl+alt+h"]
+focus_pane_down = ["prefix+down", "ctrl+alt+j"]
+focus_pane_up = ["prefix+up", "ctrl+alt+k"]
+focus_pane_right = ["prefix+right", "ctrl+alt+l"]
+cycle_pane_next = ["prefix+o", "prefix+tab"]
+cycle_pane_previous = "prefix+shift+tab"
+last_pane = "prefix+;"
+split_vertical = ["prefix+v", "prefix+|"]
+split_horizontal = "prefix+minus"
+close_pane = "prefix+x"
+zoom = ["prefix+m", "prefix+z"]
+resize_mode = "prefix+shift+r"
+# Как в tmux: префикс + h/j/k/l растягивает панель
+resize_pane_left = "prefix+h"
+resize_pane_down = "prefix+j"
+resize_pane_up = "prefix+k"
+resize_pane_right = "prefix+l"
+toggle_sidebar = "prefix+b"
+
+# Навигация в navigate-mode (оставлена vi-стилем)
+navigate_workspace_up = "up"
+navigate_workspace_down = "down"
+navigate_pane_left = "h"
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"
+
+[ui]
+mouse_capture = true
+copy_on_select = true
+accent = "#bd93f9"
+pane_borders = "auto"
+pane_outer_borders = false
+pane_gaps = false
+tab_bar_position = "bottom"
+status_indicators = "dots"
+window_title = "{hostname}: {workspace}"
+
+# Аналог dracula-статуса: хост, CPU/RAM, дата и время
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },
+  { type = "command", command = "~/.config/herdr/status.sh", interval_seconds = 5, timeout_seconds = 2 },
+  { type = "datetime", format = "%d-%m-%Y %H:%M" },
+]
+tab_bar_right_separator = " | "
+
+[session]
+# Аналог tmux-resurrect/continuum: раскладка и агенты переживают рестарт
+resume_agents_on_restore = true
+startup_per_agent_delay_ms = 100
+
+[experimental]
+# Аналог @resurrect-capture-pane-contents 'on'
+pane_history = true
+
+[advanced]
+scrollback_limit_bytes = 10000000

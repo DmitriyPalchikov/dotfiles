@@ -13,8 +13,8 @@ compinit
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="/opt/pycharm-2024.3.4/bin:/home/dmitriy/.cargo/bin:$PATH"
 export PATH=/usr/local/go/bin:$PATH
+export EDITOR=nvim
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -91,11 +91,11 @@ source <(kubectl completion zsh)
 alias ls="eza --tree --level=1 --icons=always"
 alias t="tmux"
 alias k="kubectl"
-alias ktx="kubectx"
+alias ktx="kubectl-ctx"
 alias vim="nvim"
 alias v="vagrant"
-alias cat="bat"
-alias ccat="/bin/cat"
+alias ccat="batcat"
+alias ovpn-office="sudo /usr/local/sbin/openvpn --config ~/Documents/vpn/edna-office.ovpn --daemon"
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -111,8 +111,15 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 #   export EDITOR='nvim'
 # fi
 
-if [[ -z "$TMUX" ]]; then
-    tmux
+# Автозапуск Herdr (аналог tmux). tmux остаётся доступен вручную.
+# HERDR_PANE_ID не даёт запускать herdr внутри его же панелей.
+export PATH="$HOME/.local/bin:$PATH"
+if [[ -z "$TMUX" && -z "$HERDR_PANE_ID" ]]; then
+    if command -v herdr >/dev/null 2>&1; then
+        herdr
+    else
+        tmux
+    fi
 fi
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
@@ -135,5 +142,11 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 export PATH=$HOME/.local/bin:$PATH
-eval $(keychain --eval -Q -q ~/.ssh/lognex)
+# eval $(keychain --eval -Q -q ~/.ssh/lognex)
 
+
+# opencode
+export PATH=/home/ashente/.opencode/bin:$PATH
+
+# Herdr (Herd) — короткий алиас
+alias herd='herdr'

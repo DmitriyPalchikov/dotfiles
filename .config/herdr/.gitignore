@@ -1,0 +1,8 @@
+# Runtime state — не версионируем
+*.log
+*.sock
+*.sock.*
+session.json
+session-history.json
+session-snapshots/
+.plugins.lock

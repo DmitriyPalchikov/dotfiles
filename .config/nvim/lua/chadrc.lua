@@ -9,6 +9,10 @@ M.base46 = {
     theme = "kanagawa",
     transparency = true,
 
+    hl_add = {
+        GitSignsCurrentLineBlame = { fg = "#8a8a93" },
+    },
+
     hl_override = {
         Comment = { italic = true },
         ["@comment"] = { italic = true },
