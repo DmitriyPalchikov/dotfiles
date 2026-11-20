@@ -1,0 +1,11 @@
+# Открывать файлы в Neovim (в том же терминале, yazi "прячется" на время)
+[opener]
+edit = [
+	{ run = 'nvim %s', desc = "Neovim", for = "unix", block = true },
+]
+
+# Подсветка скрытых файлов и удобная сортировка — по желанию можно убрать
+[mgr]
+show_hidden = false
+sort_by = "natural"
+sort_dir_first = true
