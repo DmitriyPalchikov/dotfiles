@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "nord"
+  },
+  "keybinds": {
+    "input.newline": "shift+return,alt+return,ctrl+j",
+    "input.line.home": "home,kphome",
+    "input.line.end": "end,kpend",
+    "session.first": "ctrl+g,alt+home",
+    "session.last": "ctrl+alt+g,alt+end"
+  }
+}
